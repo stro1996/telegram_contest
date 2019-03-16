@@ -7,6 +7,7 @@ import BottomCharts from './components/BottomCharts';
 import Resizer from './components/Resizeble';
 import { workHeightCoefficient } from './const/constForСalculations';
 import { getCoefficientY, getCoefficientX } from './utils/getCoefficient';
+import { getValueOfRange } from './utils/getValueOfRange';
 
 const checkArr = [0, 1, 2, 3];
 
@@ -18,6 +19,7 @@ class App extends Component {
     this.state = {
       width: 200,
       height: 200,
+      coefficientY: 1,
       limiter: {
         x: 100,
         y: 50,
@@ -32,6 +34,8 @@ class App extends Component {
 
   componentDidMount() {
     this.updateWindowDimensions();
+    const coefficientY = getCoefficientY(checkArr);
+    this.setState({ coefficientY });
     window.addEventListener('resize', this.updateWindowDimensions);
   }
 
@@ -63,9 +67,10 @@ class App extends Component {
   };
 
   render() {
-    const { width, height, limiter } = this.state;
-    const { coefficientX, stepOfValueX } = getCoefficientX(checkArr, width);
-    const { coefficient: coefficientY, maxValue: maxValueY } = getCoefficientY(checkArr);
+    const { width, height, limiter, coefficientY } = this.state;
+    const { coefficientX, stepOfValueX, minValue } = getCoefficientX(checkArr, width);
+    const { minValueXOfRange, maxValueXOfRange } = getValueOfRange(coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, minValue, stepOfValueX, coefficientX);
+
     return (
       <div className="App" style={{position: 'relative'}}>
         <Field

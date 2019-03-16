@@ -21,7 +21,6 @@ class Resizer extends Component {
 
   onMouseMove(e) {
     if (this.props.isResizing) {
-      console.log(e)
       this.props.funcResizing(e.clientX, e.clientY);
     }
   }

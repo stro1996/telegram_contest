@@ -27,10 +27,7 @@ export const getCoefficientY = (data) => {
     }
   }
 
-  return {
-    coefficient,
-    maxValue,
-  };
+  return coefficient;
 };
 
 const checkMaxValue = (maxValue, coefficient) => {
@@ -83,5 +80,6 @@ export const getCoefficientX = (data, width) => {
   return {
     coefficientX,
     stepOfValueX,
+    minValue,
   };
 };
