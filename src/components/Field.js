@@ -3,8 +3,15 @@ import { Line } from 'react-lineto';
 
 class Field extends Component {
   render() {
-    const { heightGap, width } = this.props;
-    const arrForRender = [1, 2, 3, 4, 5, 6];
+    const { heightGap, width , maxValue} = this.props;
+    const arrForRender = [
+      maxValue,
+      Math.floor(maxValue * 0.8),
+      Math.floor(maxValue * 0.6),
+      Math.floor(maxValue * 0.4),
+      Math.floor(maxValue * 0.2),
+      0
+    ];
     return (
       <div>
         {

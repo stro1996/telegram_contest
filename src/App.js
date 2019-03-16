@@ -5,9 +5,16 @@ import './App.css';
 import Field from './components/Field';
 import BottomCharts from './components/BottomCharts';
 import Resizer from './components/Resizeble';
+import Charts from './components/Charts';
 import { workHeightCoefficient } from './const/constForСalculations';
-import { getCoefficientY, getCoefficientX } from './utils/getCoefficient';
-import { getValueOfRange } from './utils/getValueOfRange';
+import {
+  getCoefficientYForBottomBar,
+  getCoefficientX,
+  getValueAndCoefficientYForChart,
+  getCoefficientXForCharts,
+} from './utils/getCoefficient';
+import { getValueXOfRange } from './utils/getValueOfRange';
+import { rangeForBottomBar } from "./const/constForСalculations";
 
 const checkArr = [0, 1, 2, 3];
 
@@ -34,7 +41,7 @@ class App extends Component {
 
   componentDidMount() {
     this.updateWindowDimensions();
-    const coefficientY = getCoefficientY(checkArr);
+    const coefficientY = getCoefficientYForBottomBar(checkArr, rangeForBottomBar);
     this.setState({ coefficientY });
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -68,12 +75,17 @@ class App extends Component {
 
   render() {
     const { width, height, limiter, coefficientY } = this.state;
-    const { coefficientX, stepOfValueX, minValue } = getCoefficientX(checkArr, width);
-    const { minValueXOfRange, maxValueXOfRange } = getValueOfRange(coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, minValue, stepOfValueX, coefficientX);
+    const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(checkArr, width);
+    const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, minValue, stepOfValueX, coefficientX);
+    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, height * workHeightCoefficient);
+    const coefficientXForCharts = getCoefficientXForCharts(width, coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, coefficientX);
+
+    const heightWithPaddingForBottomBar = (height * workHeightCoefficient) + 150;
 
     return (
       <div className="App" style={{position: 'relative'}}>
         <Field
+          maxValue={maxValueForCharts}
           width={width}
           heightGap={(height * workHeightCoefficient) / 6}
         />
@@ -81,8 +93,20 @@ class App extends Component {
           coefficientY={coefficientY}
           coefficientX={coefficientX}
           arrayOfItems={checkArr}
-          height={height}
+          minValue={minValue}
+          maxValue={maxValue}
+          width={width}
+          heightWithPadding={heightWithPaddingForBottomBar}
         />
+        {/*<Charts*/}
+          {/*coefficientY={coefficientForCharts}*/}
+          {/*coefficientX={coefficientXForCharts}*/}
+          {/*arrayOfItems={checkArr}*/}
+          {/*minValue={minValueXOfRange}*/}
+          {/*maxValue={maxValueXOfRange}*/}
+          {/*width={width}*/}
+          {/*heightWithPadding={height}*/}
+        {/*/>*/}
         <Resizer
           ref={"limiter"}
           isResizing={limiter.isResizing}

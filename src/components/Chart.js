@@ -1,15 +1,17 @@
 import React from 'react';
 import { Line } from 'react-lineto';
 import { getValue, getLengthOfArray } from '../utils/getValue';
-import { workHeightCoefficient } from '../const/constForСalculations';
 
 const Chart = (props) => {
   const arr = [];
-  const { height, index, color, coefficientY, coefficientX } = props;
-
-  const heightWithPadding = (height * workHeightCoefficient) + 150;
-
+  const { heightWithPadding, index, color, coefficientY, coefficientX, minValue, maxValue } = props;
   for (let i = 1; i < getLengthOfArray(index); i++) {
+    const targetValue = getValue(index, 0, i);
+
+    if (targetValue > maxValue ||  targetValue < minValue) {
+      continue;
+    }
+
     const mainLine = <Line
       borderColor={color}
       x0={coefficientX * i}
