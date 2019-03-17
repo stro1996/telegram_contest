@@ -104,7 +104,6 @@ export const getValueAndCoefficientYForChart = (data, minValueXOfRange, maxValue
         continue;
       }
 
-
       const firstArrayValue = getValue(dataIndex, 1, elementIndex); // TODO rewrite to all Y value
       const secondArrayValue = getValue(dataIndex, 2, elementIndex); // TODO rewrite to all Y value
 
@@ -129,6 +128,5 @@ export const getValueAndCoefficientYForChart = (data, minValueXOfRange, maxValue
 };
 
 export const getCoefficientXForCharts = (width, startPosition, range, coefficientX) => {
-  console.log(width/ Math.ceil((startPosition + range) / coefficientX))
   return (width - 20) / Math.ceil((startPosition + range) / coefficientX);
 };

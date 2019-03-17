@@ -5,7 +5,7 @@ import { getValue } from "../utils/getValue";
 class Charts extends Component {
 
   getArrayOfLine = () => {
-    const { arrayOfItems, coefficientY, coefficientX, height, minValue, maxValue, heightWithPadding } = this.props;
+    const { arrayOfItems, coefficientY, coefficientX, height, minValue, maxValue, heightWithPadding, isCharts } = this.props;
     let arrayOfLine = [];
     for (let dataIndex = 0; dataIndex < arrayOfItems.length; dataIndex++) {
       if (arrayOfItems[dataIndex] === null) {
@@ -28,6 +28,7 @@ class Charts extends Component {
         minValue={minValue}
         maxValue={maxValue}
         heightWithPadding={heightWithPadding}
+        isCharts={isCharts}
       />);
     }
 

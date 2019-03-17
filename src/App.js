@@ -74,20 +74,22 @@ class App extends Component {
   };
 
   render() {
+
     const { width, height, limiter, coefficientY } = this.state;
+    const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(checkArr, width);
     const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, minValue, stepOfValueX, coefficientX);
-    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, height * workHeightCoefficient);
+    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts);
     const coefficientXForCharts = getCoefficientXForCharts(width, coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, coefficientX);
 
-    const heightWithPaddingForBottomBar = (height * workHeightCoefficient) + 150;
+    const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
 
     return (
       <div className="App" style={{position: 'relative'}}>
         <Field
           maxValue={maxValueForCharts}
           width={width}
-          heightGap={(height * workHeightCoefficient) / 6}
+          heightGap={heightWithPaddingForCharts / 6}
         />
         <BottomCharts
           coefficientY={coefficientY}
@@ -98,15 +100,16 @@ class App extends Component {
           width={width}
           heightWithPadding={heightWithPaddingForBottomBar}
         />
-        {/*<Charts*/}
-          {/*coefficientY={coefficientForCharts}*/}
-          {/*coefficientX={coefficientXForCharts}*/}
-          {/*arrayOfItems={checkArr}*/}
-          {/*minValue={minValueXOfRange}*/}
-          {/*maxValue={maxValueXOfRange}*/}
-          {/*width={width}*/}
-          {/*heightWithPadding={height}*/}
-        {/*/>*/}
+        <Charts
+          coefficientY={coefficientForCharts}
+          coefficientX={coefficientXForCharts}
+          arrayOfItems={checkArr}
+          minValue={minValueXOfRange}
+          maxValue={maxValueXOfRange}
+          width={width}
+          heightWithPadding={heightWithPaddingForCharts}
+          isCharts={true}
+        />
         <Resizer
           ref={"limiter"}
           isResizing={limiter.isResizing}
