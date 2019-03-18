@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chart from "./Chart";
-import { getValue } from "../utils/getValue";
+import {getColor, getValue} from "../utils/getValue";
 
 class Charts extends Component {
 
@@ -8,12 +8,13 @@ class Charts extends Component {
     const { arrayOfItems, coefficientY, coefficientX, height, minValue, maxValue, heightWithPadding, isCharts } = this.props;
     let arrayOfLine = [];
     for (let dataIndex = 0; dataIndex < arrayOfItems.length; dataIndex++) {
+
       if (arrayOfItems[dataIndex] === null) {
         arrayOfLine.push(null);
         continue;
       }
 
-      const firstValue = getValue(dataIndex, 0, 1);
+      const firstValue = getValue(4, 0, 1);
       if (firstValue > maxValue) {
         continue;
       }
@@ -21,8 +22,8 @@ class Charts extends Component {
       arrayOfLine.push(<Chart
         key={dataIndex}
         height={height}
-        index={dataIndex}
-        color={'blue'}
+        index={dataIndex + 1}
+        color={getColor(4, `y${dataIndex}`)}
         coefficientY={coefficientY}
         coefficientX={coefficientX}
         minValue={minValue}

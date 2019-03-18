@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
+import { Rnd } from "react-rnd";
+
 import Field from './components/Field';
 import BottomCharts from './components/BottomCharts';
 import Resizer from './components/Resizeble';
 import Charts from './components/Charts';
+import BottomMeasure from './components/BottomMeasure';
 import { workHeightCoefficient } from './const/constForСalculations';
 import {
   getCoefficientYForBottomBar,
@@ -18,6 +21,14 @@ import { rangeForBottomBar } from "./const/constForСalculations";
 
 const checkArr = [0, 1, 2, 3];
 
+const style = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "solid 1px #ddd",
+  background: "#f0f0f0"
+};
+
 
 class App extends Component {
 
@@ -28,8 +39,8 @@ class App extends Component {
       height: 200,
       coefficientY: 1,
       limiter: {
-        x: 100,
-        y: 50,
+        x: 10,
+        y: 650,
         width: 100,
         height: 150,
         isResizing: false,
@@ -74,13 +85,13 @@ class App extends Component {
   };
 
   render() {
-
     const { width, height, limiter, coefficientY } = this.state;
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(checkArr, width);
-    const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, minValue, stepOfValueX, coefficientX);
-    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts);
-    const coefficientXForCharts = getCoefficientXForCharts(width, coefficientX - coefficientX/* change for start position minus cofficent*/, limiter.width, coefficientX);
+    const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(limiter.x- coefficientX, limiter.width, minValue, stepOfValueX, coefficientX);
+    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
+    const coefficientXForCharts = getCoefficientXForCharts(width, limiter.x - coefficientX, limiter.width, coefficientX);
+    console.log(maxValue)
 
     const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
 
@@ -99,6 +110,14 @@ class App extends Component {
           maxValue={maxValue}
           width={width}
           heightWithPadding={heightWithPaddingForBottomBar}
+        />
+        <BottomMeasure
+          maxValue={maxValueXOfRange}
+          step={width / 6}
+          stepByDtae={(maxValueXOfRange - minValueXOfRange) / 5}
+          positionByY={heightWithPaddingForCharts}
+          width={width}
+          minValue={minValueXOfRange}
         />
         <Charts
           coefficientY={coefficientForCharts}
@@ -119,6 +138,28 @@ class App extends Component {
           funcResizing={this.funcResizing}
           defaultX={coefficientX}
         />
+
+        {/*<Rnd*/}
+          {/*style={style}*/}
+          {/*dragAxis={'x'}*/}
+          {/*size={{ width: limiter.width, height: limiter.height }}*/}
+          {/*position={{ x: limiter.x, y: limiter.y }}*/}
+          {/*onDrag={(e, d) => {*/}
+            {/*const newLimiter = { ...limiter };*/}
+            {/*newLimiter.x = d.x;*/}
+            {/*newLimiter.y = d.y;*/}
+            {/*this.setState({ limiter: newLimiter, });*/}
+          {/*}}*/}
+          {/*onResize={(e, direction, ref, delta, position) => {*/}
+            {/*const newLimiter = { ...limiter };*/}
+            {/*newLimiter.width = e.x;*/}
+            {/*this.setState({*/}
+              {/*limiter: newLimiter,*/}
+            {/*});*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*Rnd*/}
+        {/*</Rnd>*/}
       </div>
     );
   }

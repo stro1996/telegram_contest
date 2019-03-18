@@ -16,6 +16,14 @@ export const getLengthOfArray = (index) => {
     && data[index].columns[0].length;
 };
 
+export const getChartsQantity = (index) => {
+  return data
+    && data[index]
+    && data[index].columns
+    && data[index].columns
+    && data[index].columns.length - 1;
+};
+
 export const getFirstValueOfArrayOfDate = (index) => {
   return data
     && data[index]
@@ -30,4 +38,12 @@ export const getMaxValueOFArrayOfDate = (index) => {
     && data[index].columns
     && data[index].columns[0]
     && data[index].columns[0][data[index].columns[0].length - 1];
+};
+
+
+export const getColor = (index, key) => {
+  return data
+    && data[index]
+    && data[index].colors
+    && data[index].colors[key];
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getColor } from '../utils/getValue';
 import Chart from './Chart';
 
 class BottomCharts extends Component {
@@ -44,8 +45,8 @@ class BottomCharts extends Component {
 
       arrayOfLine.push(<Chart
         key={dataIndex}
-        index={dataIndex}
-        color={'blue'}
+        index={dataIndex + 1}
+        color={getColor(4, `y${dataIndex}`)}
         coefficientY={coefficientY}
         coefficientX={coefficientX}
         minValue={minValue}
