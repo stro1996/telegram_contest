@@ -9,6 +9,7 @@ import BottomCharts from './components/BottomCharts';
 import Resizer from './components/Resizeble';
 import Charts from './components/Charts';
 import BottomMeasure from './components/BottomMeasure';
+import Button from './components/Button';
 import { workHeightCoefficient } from './const/constForСalculations';
 import {
   getCoefficientYForBottomBar,
@@ -19,7 +20,7 @@ import {
 import { getValueXOfRange } from './utils/getValueOfRange';
 import { rangeForBottomBar } from "./const/constForСalculations";
 
-const checkArr = [0, 1, 2, 3];
+//const checkArr = [0, 1, 2, 3];
 
 const style = {
   display: "flex",
@@ -35,6 +36,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      arrayOfButton: [0, 1, 2, 3],
       width: 200,
       height: 200,
       coefficientY: 1,
@@ -51,8 +53,9 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const { arrayOfButton } = this.state;
     this.updateWindowDimensions();
-    const coefficientY = getCoefficientYForBottomBar(checkArr, rangeForBottomBar);
+    const coefficientY = getCoefficientYForBottomBar(arrayOfButton, rangeForBottomBar);
     this.setState({ coefficientY });
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -78,20 +81,39 @@ class App extends Component {
     const newLimiter = { ...this.state.limiter };
     const node = ReactDOM.findDOMNode(this.refs['limiter']);
     newLimiter.width = clientX - node.offsetLeft + (16 / 2);
-
-    this.setState({
+    requestAnimationFrame(() => this.setState({
       limiter: newLimiter,
-    });
+    }));
+  };
+
+  handelClickOnButton = (index) => {
+    let newArray = [...this.state.arrayOfButton];
+    const targetValue = newArray[index];
+
+    if (targetValue !== null) {
+      newArray[index] = null;
+    } else {
+      newArray[index] = index;
+    }
+
+    const coefficientY = getCoefficientYForBottomBar(newArray, rangeForBottomBar);
+
+    requestAnimationFrame(() => {
+      this.setState({
+        arrayOfButton: newArray,
+        coefficientY,
+      });
+    })
   };
 
   render() {
-    const { width, height, limiter, coefficientY } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton } = this.state;
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
-    const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(checkArr, width);
+
+    const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
     const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(limiter.x- coefficientX, limiter.width, minValue, stepOfValueX, coefficientX);
-    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(checkArr, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
+    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
     const coefficientXForCharts = getCoefficientXForCharts(width, limiter.x - coefficientX, limiter.width, coefficientX);
-    console.log(maxValue)
 
     const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
 
@@ -105,7 +127,7 @@ class App extends Component {
         <BottomCharts
           coefficientY={coefficientY}
           coefficientX={coefficientX}
-          arrayOfItems={checkArr}
+          arrayOfItems={arrayOfButton}
           minValue={minValue}
           maxValue={maxValue}
           width={width}
@@ -122,7 +144,7 @@ class App extends Component {
         <Charts
           coefficientY={coefficientForCharts}
           coefficientX={coefficientXForCharts}
-          arrayOfItems={checkArr}
+          arrayOfItems={arrayOfButton}
           minValue={minValueXOfRange}
           maxValue={maxValueXOfRange}
           width={width}
@@ -138,7 +160,18 @@ class App extends Component {
           funcResizing={this.funcResizing}
           defaultX={coefficientX}
         />
-
+        <div style={{position: 'absolute', top: height - 100}}>
+          {
+            arrayOfButton.map((item, index) =>
+              <Button
+                key={index}
+                index={index}
+                title={'title'}
+                onPress={this.handelClickOnButton}
+              />
+            )
+          }
+        </div>
         {/*<Rnd*/}
           {/*style={style}*/}
           {/*dragAxis={'x'}*/}

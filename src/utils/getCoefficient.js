@@ -1,9 +1,17 @@
 import { getLengthOfArray, getValue, getFirstValueOfArrayOfDate, getMaxValueOFArrayOfDate, getChartsQantity } from "./getValue";
 
-const getMaxValueOfThisIndex = (elementIndex) => {
+const getMaxValueOfThisIndex = (elementIndex, data) => {
   let maxElementInRange = getValue(4, 1, elementIndex);
-  for (let i = 2; i < getChartsQantity(4); i++) {
+  if (data[0] === null) {
+    maxElementInRange = 0;
+  }
+
+  for (let i = 2; i <= getChartsQantity(4); i++) {
     let value = getValue(4, i, elementIndex);
+    if (data[i - 1] === null) {
+      value = 0;
+    }
+
     if (value > maxElementInRange) {
       maxElementInRange = value;
     }
@@ -16,20 +24,20 @@ export const getCoefficientYForBottomBar = (data, range) => {
   let coefficient = 1;
   let maxValue = 1;
 
-  for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
-    if (data[dataIndex] === null) {
-      continue;
-    }
+  // for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
+  //   if (data[dataIndex] === null) {
+  //     continue;
+  //   }
 
     for (let elementIndex = 1; elementIndex < getLengthOfArray(4); elementIndex++) {
-      let maxElementInRange = getMaxValueOfThisIndex(elementIndex);
+      let maxElementInRange = getMaxValueOfThisIndex(elementIndex, data);
 
       if (maxValue < maxElementInRange) {
         maxValue = maxElementInRange;
         coefficient = checkMaxValue(maxValue, coefficient, range);
       }
     }
-  }
+  // }
 
   return coefficient;
 };
@@ -89,28 +97,29 @@ export const getCoefficientX = (data, width) => {
 export const getValueAndCoefficientYForChart = (data, minValueXOfRange, maxValueXOfRange, range) => {
   let coefficient = 1;
   let maxValue = 1;
-  for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
-    if (data[dataIndex] === null) {
-      continue;
-    }
-    const firstValue = getValue(4, 0, 1);
-    if (firstValue > maxValueXOfRange) {
-      continue;
-    }
+  // for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
+  //   if (data[dataIndex] === null) {
+  //     continue;
+  //   }
+
+    // const firstValue = getValue(4, 0, 1);
+    // if (firstValue > maxValueXOfRange) {
+    //   continue;
+    // }
 
     for (let elementIndex = 1; elementIndex < getLengthOfArray(4); elementIndex++) {
       const targetValue = getValue(4, 0, elementIndex);
       if (targetValue > maxValueXOfRange ||  targetValue < minValueXOfRange) {
         continue;
       }
-      let maxElementInRange = getMaxValueOfThisIndex(elementIndex);
+      let maxElementInRange = getMaxValueOfThisIndex(elementIndex, data);
 
       if (maxValue < maxElementInRange) {
         maxValue = maxElementInRange;
         coefficient = checkMaxValue(maxValue, coefficient, range);
       }
     }
-  }
+  // }
 
   return {
     coefficient,
