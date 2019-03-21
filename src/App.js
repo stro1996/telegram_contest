@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 
 import { Rnd } from "react-rnd";
 
 import Field from './components/Field';
 import BottomCharts from './components/BottomCharts';
-import Resizer from './components/Resizeble';
 import Charts from './components/Charts';
 import BottomMeasure from './components/BottomMeasure';
 import Button from './components/Button';
@@ -20,16 +18,13 @@ import {
 import { getValueXOfRange } from './utils/getValueOfRange';
 import { rangeForBottomBar } from "./const/constForСalculations";
 
-//const checkArr = [0, 1, 2, 3];
-
 const style = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   border: "solid 1px #ddd",
-  background: "#f0f0f0"
+  background: "transparent"
 };
-
 
 class App extends Component {
 
@@ -41,11 +36,12 @@ class App extends Component {
       height: 200,
       coefficientY: 1,
       limiter: {
-        x: 10,
+        x: 0,
         y: 650,
         width: 100,
         height: 150,
         isResizing: false,
+        isDragging: false,
       },
     };
 
@@ -68,24 +64,6 @@ class App extends Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  updateStateResizing = (isResizing) => {
-    const newLimiter = {
-      ...this.state.limiter,
-      isResizing: isResizing,
-    };
-
-    this.setState({ limiter: newLimiter });
-  };
-
-  funcResizing = (clientX, clientY) => {
-    const newLimiter = { ...this.state.limiter };
-    const node = ReactDOM.findDOMNode(this.refs['limiter']);
-    newLimiter.width = clientX - node.offsetLeft + (16 / 2);
-    requestAnimationFrame(() => this.setState({
-      limiter: newLimiter,
-    }));
-  };
-
   handelClickOnButton = (index) => {
     let newArray = [...this.state.arrayOfButton];
     const targetValue = newArray[index];
@@ -106,14 +84,50 @@ class App extends Component {
     })
   };
 
+  onDrag = (e, d) => {
+    const { limiter, width } = this.state;
+    const newLimiter = { ...limiter };
+    let newX = d.x;
+    if (newX < 0) {
+      newX = 0;
+    }
+
+    if (newX > width - limiter.width) {
+      newX = width;
+    }
+
+    newLimiter.x = newX;
+    newLimiter.y = 650;
+    requestAnimationFrame(() => {
+      this.setState({
+        limiter: newLimiter,
+      });
+    });
+  };
+
+  onResize = (e, direction, ref, delta, position) => {
+    // TODO fix this
+    const { limiter } = this.state;
+    const newLimiter = { ...limiter };
+    newLimiter.width = e.x;
+    requestAnimationFrame(() => {
+      this.setState({
+        limiter: newLimiter,
+      });
+    });
+  };
+
   render() {
     const { width, height, limiter, coefficientY, arrayOfButton } = this.state;
-    const heightWithPaddingForCharts = (height * workHeightCoefficient);
 
+    const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
-    const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(limiter.x- coefficientX, limiter.width, minValue, stepOfValueX, coefficientX);
-    const { coefficient: coefficientForCharts, maxValue: maxValueForCharts } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
-    const coefficientXForCharts = getCoefficientXForCharts(width, limiter.x - coefficientX, limiter.width, coefficientX);
+    const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(limiter.x - coefficientX, limiter.width, minValue, stepOfValueX, coefficientX);
+    const {
+      coefficient: coefficientForCharts,
+      maxValue: maxValueForCharts
+    } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
+    const coefficientXForCharts = getCoefficientXForCharts(width, minValueXOfRange, maxValueXOfRange, coefficientX, stepOfValueX);
 
     const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
 
@@ -124,15 +138,7 @@ class App extends Component {
           width={width}
           heightGap={heightWithPaddingForCharts / 6}
         />
-        <BottomCharts
-          coefficientY={coefficientY}
-          coefficientX={coefficientX}
-          arrayOfItems={arrayOfButton}
-          minValue={minValue}
-          maxValue={maxValue}
-          width={width}
-          heightWithPadding={heightWithPaddingForBottomBar}
-        />
+
         <BottomMeasure
           maxValue={maxValueXOfRange}
           step={width / 6}
@@ -141,25 +147,7 @@ class App extends Component {
           width={width}
           minValue={minValueXOfRange}
         />
-        <Charts
-          coefficientY={coefficientForCharts}
-          coefficientX={coefficientXForCharts}
-          arrayOfItems={arrayOfButton}
-          minValue={minValueXOfRange}
-          maxValue={maxValueXOfRange}
-          width={width}
-          heightWithPadding={heightWithPaddingForCharts}
-          isCharts={true}
-        />
-        <Resizer
-          ref={"limiter"}
-          isResizing={limiter.isResizing}
-          resizerWidth={limiter.width}
-          resizerHeight={limiter.height}
-          updateStateResizing={this.updateStateResizing}
-          funcResizing={this.funcResizing}
-          defaultX={coefficientX}
-        />
+
         <div style={{position: 'absolute', top: height - 100}}>
           {
             arrayOfButton.map((item, index) =>
@@ -172,27 +160,38 @@ class App extends Component {
             )
           }
         </div>
-        {/*<Rnd*/}
-          {/*style={style}*/}
-          {/*dragAxis={'x'}*/}
-          {/*size={{ width: limiter.width, height: limiter.height }}*/}
-          {/*position={{ x: limiter.x, y: limiter.y }}*/}
-          {/*onDrag={(e, d) => {*/}
-            {/*const newLimiter = { ...limiter };*/}
-            {/*newLimiter.x = d.x;*/}
-            {/*newLimiter.y = d.y;*/}
-            {/*this.setState({ limiter: newLimiter, });*/}
-          {/*}}*/}
-          {/*onResize={(e, direction, ref, delta, position) => {*/}
-            {/*const newLimiter = { ...limiter };*/}
-            {/*newLimiter.width = e.x;*/}
-            {/*this.setState({*/}
-              {/*limiter: newLimiter,*/}
-            {/*});*/}
-          {/*}}*/}
-        {/*>*/}
-          {/*Rnd*/}
-        {/*</Rnd>*/}
+        <Rnd
+          style={style}
+          dragAxis={'x'}
+          size={{ width: limiter.width, height: limiter.height }}
+          position={{ x: limiter.x, y: limiter.y }}
+          onDrag={this.onDrag}
+          onResize={this.onResize}
+        >
+          Rnd
+        </Rnd>
+        <svg width={width} height={height}>
+          <BottomCharts
+            coefficientY={coefficientY}
+            coefficientX={coefficientX}
+            arrayOfItems={arrayOfButton}
+            minValue={minValue}
+            maxValue={maxValue}
+            width={width}
+            heightWithPadding={heightWithPaddingForBottomBar}
+          />
+          <Charts
+            coefficientY={coefficientForCharts}
+            coefficientX={coefficientXForCharts}
+            arrayOfItems={arrayOfButton}
+            minValue={minValueXOfRange}
+            maxValue={maxValueXOfRange}
+            width={width}
+            heightWithPadding={heightWithPaddingForCharts}
+            isCharts={true}
+            height={height}
+          />
+        </svg>
       </div>
     );
   }

@@ -127,6 +127,6 @@ export const getValueAndCoefficientYForChart = (data, minValueXOfRange, maxValue
   };
 };
 
-export const getCoefficientXForCharts = (width, startPosition, range, coefficientX) => {
-  return (width - 20) / Math.ceil((startPosition + range) / coefficientX);
+export const getCoefficientXForCharts = (width, minValueXOfRange, maxValueXOfRange, coefficientX, stepOfValueX) => {
+  return (width - 20) / Math.ceil(((maxValueXOfRange - minValueXOfRange) / stepOfValueX) / coefficientX);
 };
