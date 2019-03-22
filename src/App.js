@@ -23,7 +23,8 @@ const style = {
   alignItems: "center",
   justifyContent: "center",
   border: "solid 1px #ddd",
-  background: "transparent"
+  background: "transparent",
+  borderRadius: '5px 5px 5px 5px',
 };
 
 class App extends Component {
@@ -39,7 +40,7 @@ class App extends Component {
         x: 0,
         y: 650,
         width: 100,
-        height: 150,
+        height: 100,
         isResizing: false,
         isDragging: false,
       },
@@ -61,7 +62,13 @@ class App extends Component {
   }
 
   updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
+    const newLimiter =  { ...this.state.limiter };
+    newLimiter.y = (window.innerHeight * workHeightCoefficient) + 50;
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      limiter: newLimiter,
+    });
   }
 
   handelClickOnButton = (index) => {
@@ -97,7 +104,7 @@ class App extends Component {
     }
 
     newLimiter.x = newX;
-    newLimiter.y = 650;
+    newLimiter.y = limiter.y;
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
@@ -106,10 +113,19 @@ class App extends Component {
   };
 
   onResize = (e, direction, ref, delta, position) => {
-    // TODO fix this
     const { limiter } = this.state;
     const newLimiter = { ...limiter };
-    newLimiter.width = e.x;
+
+    if (direction === 'right') {
+      newLimiter.width = e.x - newLimiter.x;
+    }
+
+    if (direction === 'left') {
+      const oldX = newLimiter.x;
+      newLimiter.x = e.x;
+      newLimiter.width += (oldX - e.x);
+    }
+
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
@@ -148,7 +164,7 @@ class App extends Component {
           minValue={minValueXOfRange}
         />
 
-        <div style={{position: 'absolute', top: height - 100}}>
+        <div style={{position: 'absolute', top: height - 50}}>
           {
             arrayOfButton.map((item, index) =>
               <Button
@@ -168,7 +184,12 @@ class App extends Component {
           onDrag={this.onDrag}
           onResize={this.onResize}
         >
-          Rnd
+          <div style={{ position: 'absolute', backgroundColor: 'rgba(230, 14, 14, 0.4)', top: 0, bottom: 0, left: 0, width: 10, borderRadius: '5px 0px 0px 5px'}}>
+
+          </div>
+          <div style={{ position: 'absolute', backgroundColor: 'rgba(230, 14, 14, 0.4)', top: 0, bottom: 0, right: 0, width: 10, borderRadius: '0px 5px 5px 0px' }}>
+
+          </div>
         </Rnd>
         <svg width={width} height={height}>
           <BottomCharts
