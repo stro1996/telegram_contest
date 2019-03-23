@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getColor } from "../utils/getValue";
 
 class Button extends Component {
 
@@ -8,10 +9,11 @@ class Button extends Component {
   };
 
   render() {
-    const { title } = this.props;
+    const { width, index } = this.props;
+    const color = getColor(4, `y${index}`)
     return (
-      <button onClick={this.onPressOnButton}>
-        <p>{title}</p>
+      <button style={{ width: width / 5, marginLeft: width / 25 }} onClick={this.onPressOnButton}>
+        <p style={{ color }}>y{index}</p>
       </button>
     )
   }

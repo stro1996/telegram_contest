@@ -17,6 +17,7 @@ import {
 } from './utils/getCoefficient';
 import { getValueXOfRange } from './utils/getValueOfRange';
 import { rangeForBottomBar } from "./const/constForСalculations";
+import { Transition } from 'react-transition-group';
 
 const style = {
   display: "flex",
@@ -25,6 +26,18 @@ const style = {
   border: "solid 1px #ddd",
   background: "transparent",
   borderRadius: '5px 5px 5px 5px',
+};
+
+const duration = 100;
+
+const defaultStyle = {
+  transition: `width 500ms 0ms, opacity 100ms 100ms`,
+  opacity: 0,
+};
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered:  { opacity: 1 },
 };
 
 class App extends Component {
@@ -36,6 +49,7 @@ class App extends Component {
       width: 200,
       height: 200,
       coefficientY: 1,
+      changeAnimation: true,
       limiter: {
         x: 0,
         y: 650,
@@ -108,7 +122,8 @@ class App extends Component {
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
-      });
+        changeAnimation: false,
+      }, () => this.setState({ changeAnimation: true }));
     });
   };
 
@@ -117,24 +132,41 @@ class App extends Component {
     const newLimiter = { ...limiter };
 
     if (direction === 'right') {
-      newLimiter.width = e.x - newLimiter.x;
+
+      if (e.type === 'touchmove') {
+        const { targetTouches } = e;
+        newLimiter.width = targetTouches[0].pageX - newLimiter.x;
+      } else {
+        newLimiter.width = e.x - newLimiter.x;
+      }
+
     }
 
     if (direction === 'left') {
-      const oldX = newLimiter.x;
-      newLimiter.x = e.x;
-      newLimiter.width += (oldX - e.x);
+
+      if (e.type === 'touchmove') {
+        const { targetTouches } = e;
+        const oldX = newLimiter.x;
+        newLimiter.x = targetTouches[0].pageX;
+        newLimiter.width += (oldX - targetTouches[0].pageX);
+      } else {
+        const oldX = newLimiter.x;
+        newLimiter.x = e.x;
+        newLimiter.width += (oldX - e.x);
+      }
+
     }
 
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
-      });
+        changeAnimation: false,
+      }, () => this.setState({ changeAnimation: true }));
     });
   };
 
   render() {
-    const { width, height, limiter, coefficientY, arrayOfButton } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation } = this.state;
 
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
@@ -154,24 +186,31 @@ class App extends Component {
           width={width}
           heightGap={heightWithPaddingForCharts / 6}
         />
-
-        <BottomMeasure
-          maxValue={maxValueXOfRange}
-          step={width / 6}
-          stepByDtae={(maxValueXOfRange - minValueXOfRange) / 5}
-          positionByY={heightWithPaddingForCharts}
-          width={width}
-          minValue={minValueXOfRange}
-        />
-
+        <Transition in={changeAnimation} timeout={duration}>
+          {state => (
+            <div style={{
+              ...defaultStyle,
+              ...transitionStyles[state]
+            }}>
+              <BottomMeasure
+                maxValue={maxValueXOfRange}
+                step={width / 6}
+                stepByDtae={(maxValueXOfRange - minValueXOfRange) / 5}
+                positionByY={heightWithPaddingForCharts}
+                width={width}
+                minValue={minValueXOfRange}
+              />
+            </div>
+          )}
+        </Transition>
         <div style={{position: 'absolute', top: height - 50}}>
           {
             arrayOfButton.map((item, index) =>
               <Button
                 key={index}
                 index={index}
-                title={'title'}
                 onPress={this.handelClickOnButton}
+                width={width}
               />
             )
           }

@@ -9,7 +9,7 @@
     "react-rnd": "^9.1.2",
     "react-scripts": "2.1.8",
     "react-spring": "^8.0.18",
-    "react-transition-group": "1.x"
+    "react-transition-group": "^2.7.0"
   },
   "scripts": {
     "start": "react-scripts start",

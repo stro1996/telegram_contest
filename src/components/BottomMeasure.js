@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group/esm';
 
 class BottomMeasure extends Component {
   render() {
@@ -27,8 +31,9 @@ class BottomMeasure extends Component {
                   top: positionByY,
                   right: 0,
                 }
+
             return (
-              <div key={index} style={style}>
+              <div style={style}>
                 <p style={{fontSize: '1em'}}>{(item.toDateString())}</p>
               </div>
             )
