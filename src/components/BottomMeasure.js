@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group/esm';
 
 class BottomMeasure extends Component {
   render() {

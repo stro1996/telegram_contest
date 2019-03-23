@@ -47,3 +47,10 @@ export const getColor = (index, key) => {
     && data[index].colors
     && data[index].colors[key];
 };
+
+export const getName = (index, key) => {
+  return data
+    && data[index]
+    && data[index].names
+    && data[index].names[key];
+};

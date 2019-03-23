@@ -8,6 +8,7 @@ import BottomCharts from './components/BottomCharts';
 import Charts from './components/Charts';
 import BottomMeasure from './components/BottomMeasure';
 import Button from './components/Button';
+import Tip from './components/Tip';
 import { workHeightCoefficient } from './const/constForСalculations';
 import {
   getCoefficientYForBottomBar,
@@ -50,6 +51,9 @@ class App extends Component {
       height: 200,
       coefficientY: 1,
       changeAnimation: true,
+      showTip: false,
+      positionOfTipX: 0,
+      indexValueOnTip: 0,
       limiter: {
         x: 0,
         y: 650,
@@ -165,8 +169,18 @@ class App extends Component {
     });
   };
 
+  changeStateOfTip = (state, positionOfX, index) => {
+    requestAnimationFrame(() => {
+      this.setState({
+        showTip: state,
+        positionOfTipX: positionOfX,
+        indexValueOnTip: index,
+      });
+    });
+  };
+
   render() {
-    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation, showTip, positionOfTipX, indexValueOnTip } = this.state;
 
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
@@ -250,8 +264,16 @@ class App extends Component {
             heightWithPadding={heightWithPaddingForCharts}
             isCharts={true}
             height={height}
+            changeStateOfTip={this.changeStateOfTip}
           />
         </svg>
+        <Tip
+          show={showTip}
+          arrayOfValue={arrayOfButton}
+          positionX={positionOfTipX}
+          indexOfValue={indexValueOnTip}
+          height={height * workHeightCoefficient}
+        />
       </div>
     );
   }

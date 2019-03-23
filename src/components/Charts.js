@@ -5,7 +5,18 @@ import {getColor, getValue} from "../utils/getValue";
 class Charts extends Component {
 
   getArrayOfLine = () => {
-    const { arrayOfItems, coefficientY, coefficientX, height, minValue, maxValue, heightWithPadding, isCharts } = this.props;
+    const {
+      arrayOfItems,
+      coefficientY,
+      coefficientX,
+      height,
+      minValue,
+      maxValue,
+      heightWithPadding,
+      isCharts,
+      width,
+      changeStateOfTip,
+    } = this.props;
     let arrayOfLine = [];
     for (let dataIndex = 0; dataIndex < arrayOfItems.length; dataIndex++) {
 
@@ -30,6 +41,9 @@ class Charts extends Component {
         maxValue={maxValue}
         heightWithPadding={heightWithPadding}
         isCharts={isCharts}
+        renderDot={true}
+        width={width}
+        changeStateOfTip={changeStateOfTip}
       />);
     }
 
