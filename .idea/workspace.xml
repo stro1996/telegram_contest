@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78326064-0b5c-442f-983a-110847410bb2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BottomCharts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BottomCharts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Charts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Charts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Tip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Tip.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/getCoefficient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/getCoefficient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="198" column="4" selection-start-line="198" selection-start-column="4" selection-end-line="198" selection-end-column="4" />
+            <state relative-caret-position="593">
+              <caret line="317" column="80" selection-start-line="317" selection-start-column="80" selection-end-line="317" selection-end-column="80" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -226,12 +218,12 @@
       <workItem from="1553348197272" duration="1011000" />
       <workItem from="1553370009990" duration="5221000" />
       <workItem from="1553417547425" duration="5787000" />
-      <workItem from="1553435034551" duration="5168000" />
+      <workItem from="1553435034551" duration="5362000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87279000" />
+    <option name="totallyTimeSpent" value="87473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -494,8 +486,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="198" column="4" selection-start-line="198" selection-start-column="4" selection-end-line="198" selection-end-column="4" />
+        <state relative-caret-position="593">
+          <caret line="317" column="80" selection-start-line="317" selection-start-column="80" selection-end-line="317" selection-end-column="80" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

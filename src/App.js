@@ -196,7 +196,7 @@ class MainApp extends Component {
       maxValue: maxValueForCharts
     } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6, indexOfChart );
     const coefficientXForCharts = getCoefficientXForCharts(width, minValueXOfRange, maxValueXOfRange, coefficientX, stepOfValueX);
-    
+
     const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
     return (
       <div className="App" style={{position: 'relative'}}>
@@ -314,8 +314,8 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact={true} path='/' component={Main}/>
-          <Route exact={true} path="/chart/:index" component={MainApp} />
+          <Route exact={true} path='https://stro1996.github.io/telegram_contest/' component={Main}/>
+          <Route exact={true} path="https://stro1996.github.io/telegram_contest//chart/:index" component={MainApp} />
         </Switch>
       </Router>
     );
