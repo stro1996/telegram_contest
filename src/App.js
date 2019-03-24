@@ -53,6 +53,7 @@ class App extends Component {
       changeAnimation: true,
       showTip: false,
       positionOfTipX: 0,
+      positionOfTipY: 0,
       indexValueOnTip: 0,
       limiter: {
         x: 0,
@@ -169,18 +170,19 @@ class App extends Component {
     });
   };
 
-  changeStateOfTip = (state, positionOfX, index) => {
+  changeStateOfTip = (state, positionOfX, index, positionOfY) => {
     requestAnimationFrame(() => {
       this.setState({
         showTip: state,
         positionOfTipX: positionOfX,
         indexValueOnTip: index,
+        positionOfTipY: positionOfY,
       });
     });
   };
 
   render() {
-    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation, showTip, positionOfTipX, indexValueOnTip } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation, showTip, positionOfTipX, indexValueOnTip, positionOfTipY } = this.state;
 
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
@@ -208,8 +210,9 @@ class App extends Component {
             }}>
               <BottomMeasure
                 maxValue={maxValueXOfRange}
-                step={width / 6}
-                stepByDtae={(maxValueXOfRange - minValueXOfRange) / 5}
+                delta={maxValueXOfRange - minValueXOfRange}
+                step={width / 5.5}
+                stepByDtae={(maxValueXOfRange - minValueXOfRange) / 6}
                 positionByY={heightWithPaddingForCharts}
                 width={width}
                 minValue={minValueXOfRange}
@@ -225,6 +228,8 @@ class App extends Component {
                 index={index}
                 onPress={this.handelClickOnButton}
                 width={width}
+                item={item}
+                height={height}
               />
             )
           }
@@ -273,6 +278,7 @@ class App extends Component {
           positionX={positionOfTipX}
           indexOfValue={indexValueOnTip}
           height={height * workHeightCoefficient}
+          positionOfTipY={positionOfTipY}
         />
       </div>
     );

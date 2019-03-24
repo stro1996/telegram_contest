@@ -3,7 +3,7 @@ import { getName, getValue, getColor } from "../utils/getValue";
 import { Line } from 'react-lineto';
 
 const Tip = (props) => {
-  const { show, arrayOfValue, positionX, indexOfValue, height } = props;
+  const { show, arrayOfValue, positionX, indexOfValue, height, positionOfTipY } = props;
 
   if (!show) {
     return null
@@ -11,20 +11,30 @@ const Tip = (props) => {
   const date = new Date(getValue(4, 0, indexOfValue));
   return (
     <React.Fragment>
-    <div style={{position: 'absolute', top: 0,left: positionX - 250, flexDirection: 'column', display: 'flex', zIndex: 2, pointerEvents: 'none', width: 500, alignItems: 'center',}}>
-      <p style={{ textAlign: 'center' }}>{date.toDateString()}</p>
-      <div style={{flexDirection: 'row', display: 'flex', zIndex: 100}}>
-        {getArrayOfItems(arrayOfValue, indexOfValue)}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: positionX - 250,
+        flexDirection: 'column',
+        display: 'flex',
+        zIndex: 2,
+        width: 500,
+        pointerEvents: 'none',
+        alignItems: 'center',
+      }}>
+        <p style={{ textAlign: 'center' }}>{date.toDateString()}</p>
+        <div style={{flexDirection: 'row', display: 'flex', zIndex: 100}}>
+          {getArrayOfItems(arrayOfValue, indexOfValue)}
+        </div>
       </div>
-    </div>
-      <Line
-        zIndex={1}
-        borderColor={'gray'}
-        x0={positionX}
-        y0={0}
-        x1={positionX}
-        y1={height}
-      />
+        <Line
+          zIndex={1}
+          borderColor={'gray'}
+          x0={positionX}
+          y0={positionOfTipY}
+          x1={positionX}
+          y1={height}
+        />
     </React.Fragment>
 
   );
@@ -38,7 +48,7 @@ const getArrayOfItems = (arrayOfValue, indexOfValue) => {
     }
     const color = getColor(4, `y${index}`);
     const newItem = (<div style={{margin: '0 10px'}}>
-      <p style={{ color, textAlign: 'center' }}>{getValue(4, index, indexOfValue)}</p>
+      <p style={{ color, textAlign: 'center' }}>{getValue(4, index + 1, indexOfValue)}</p>
       <p style={{ color, textAlign: 'center' }}>{getName(4, `y${index}`)}</p>
     </div>);
 

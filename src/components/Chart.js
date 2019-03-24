@@ -43,9 +43,9 @@ const Chart = (props) => {
         {
           renderDot
             ? <circle
-                onTouchStart={(evt) => showTooltip(evt, 'This is blue', i , changeStateOfTip)}
+                onTouchStart={(evt) => showTooltip(evt, i , changeStateOfTip)}
                 onTouchEnd={() => hideTooltip(changeStateOfTip)}
-                onMouseMove={(evt) => showTooltip(evt, 'This is blue', i, changeStateOfTip)}
+                onMouseMove={(evt) => showTooltip(evt, i, changeStateOfTip)}
                 onMouseOut={() => hideTooltip(changeStateOfTip)}
                 fill={'transparent'}
                 cx={i === 0 ? 0 : coefficientX * indexForRenderX}
@@ -63,8 +63,8 @@ const Chart = (props) => {
   return arrOfLine;
 };
 
-const showTooltip = (evt, text, index, cb) => {
-  cb(true, evt.pageX, index)
+const showTooltip = (evt, index, cb) => {
+  cb(true, evt.pageX, index, evt.pageY)
 };
 
 const hideTooltip = (cb) => {

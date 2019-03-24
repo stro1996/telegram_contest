@@ -19,8 +19,8 @@ class Field extends Component {
             const positionByY = heightGap * (index + 1);
             return (
               <React.Fragment key={index}>
-                <div style={{position: 'absolute', top: positionByY - 50}}>
-                  <p style={{fontSize: '20px'}}>{item}</p>
+                <div style={{position: 'absolute', top: positionByY - 40}}>
+                  <p style={{fontSize: '1dp'}}>{item}</p>
                 </div>
                 <Line
                   borderColor={'gray'}
