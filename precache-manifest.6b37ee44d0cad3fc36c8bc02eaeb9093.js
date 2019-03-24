@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "68c31497f8e7c841eae6",
+    "revision": "643a49af1995d20e4953",
     "url": "https://stro1996.github.io/telegram_contest/static/css/main.35c4311d.chunk.css"
   },
   {
-    "revision": "68c31497f8e7c841eae6",
-    "url": "https://stro1996.github.io/telegram_contest/static/js/main.3b83017d.chunk.js"
+    "revision": "643a49af1995d20e4953",
+    "url": "https://stro1996.github.io/telegram_contest/static/js/main.5d650ce8.chunk.js"
   },
   {
     "revision": "a975f67caefc0f1c77ac",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "https://stro1996.github.io/telegram_contest/static/js/2.f32aedd8.chunk.js"
   },
   {
-    "revision": "7ba899c46a9eee5cc9c20b42a908b254",
+    "revision": "f94f186e1a287e69c64ebc81e41b2063",
     "url": "https://stro1996.github.io/telegram_contest/index.html"
   }
 ];
