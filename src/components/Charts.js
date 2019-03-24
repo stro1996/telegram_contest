@@ -16,6 +16,7 @@ class Charts extends Component {
       isCharts,
       width,
       changeStateOfTip,
+      indexOfChart,
     } = this.props;
     let arrayOfLine = [];
     for (let dataIndex = 0; dataIndex < arrayOfItems.length; dataIndex++) {
@@ -25,7 +26,7 @@ class Charts extends Component {
         continue;
       }
 
-      const firstValue = getValue(4, 0, 1);
+      const firstValue = getValue(indexOfChart, 0, 1);
       if (firstValue > maxValue) {
         continue;
       }
@@ -34,7 +35,7 @@ class Charts extends Component {
         key={`Charts_${dataIndex}`}
         height={height}
         index={dataIndex + 1}
-        color={getColor(4, `y${dataIndex}`)}
+        color={getColor(indexOfChart, `y${dataIndex}`)}
         coefficientY={coefficientY}
         coefficientX={coefficientX}
         minValue={minValue}
@@ -45,6 +46,7 @@ class Charts extends Component {
         width={width}
         changeStateOfTip={changeStateOfTip}
         name={'Charts'}
+        indexOfChart={indexOfChart}
       />);
     }
 

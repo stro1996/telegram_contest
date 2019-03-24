@@ -18,6 +18,7 @@ import {
 } from './utils/getCoefficient';
 import { getValueXOfRange } from './utils/getValueOfRange';
 import { rangeForBottomBar } from "./const/constForСalculations";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 const style = {
   display: "flex",
@@ -28,7 +29,7 @@ const style = {
   borderRadius: '5px 5px 5px 5px',
 };
 
-class App extends Component {
+class MainApp extends Component {
 
   constructor(props) {
     super(props);
@@ -41,6 +42,8 @@ class App extends Component {
       positionOfTipX: 0,
       positionOfTipY: 0,
       indexValueOnTip: 0,
+      indexOfChart: 0,
+      resetAll: false,
       limiter: {
         x: 0,
         y: 650,
@@ -55,11 +58,28 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { arrayOfButton } = this.state;
+    const { match } = this.props;
+    //const { arrayOfButton } = this.state;
+
+    const indexOfChart = +match.params.index;
+    const arrayOfButton = indexOfChart !== 4 ? [0, 1] : [0, 1 ,2 ,3];
     this.updateWindowDimensions();
-    const coefficientY = getCoefficientYForBottomBar(arrayOfButton, rangeForBottomBar);
-    this.setState({ coefficientY });
+    const coefficientY = getCoefficientYForBottomBar(arrayOfButton, rangeForBottomBar, indexOfChart);
+
+    this.setState({ coefficientY, indexOfChart, arrayOfButton, resetAll: true }, () => this.setState({resetAll: false}));
     window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.match.params.index !== this.props.match.params.index) {
+      const { match } = nextProps;
+      const indexOfChart = +match.params.index;
+      const arrayOfButton = indexOfChart !== 4 ? [0, 1] : [0, 1 ,2 ,3];
+      const coefficientY = getCoefficientYForBottomBar(arrayOfButton, rangeForBottomBar, indexOfChart);
+      this.setState({ coefficientY, indexOfChart, arrayOfButton, resetAll: true }, () => this.setState({resetAll: false}));
+    }
+
+
   }
 
   componentWillUnmount() {
@@ -86,7 +106,7 @@ class App extends Component {
       newArray[index] = index;
     }
 
-    const coefficientY = getCoefficientYForBottomBar(newArray, rangeForBottomBar);
+    const coefficientY = getCoefficientYForBottomBar(newArray, rangeForBottomBar, this.state.indexOfChart);
 
     requestAnimationFrame(() => {
       this.setState({
@@ -166,19 +186,18 @@ class App extends Component {
   };
 
   render() {
-    const { width, height, limiter, coefficientY, arrayOfButton, showTip, positionOfTipX, indexValueOnTip, positionOfTipY } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton, showTip, positionOfTipX, indexValueOnTip, positionOfTipY, indexOfChart, resetAll } = this.state;
 
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
-    const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
+    const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width, indexOfChart);
     const { minValueXOfRange, maxValueXOfRange } = getValueXOfRange(limiter.x - coefficientX, limiter.width, minValue, stepOfValueX, coefficientX);
     const {
       coefficient: coefficientForCharts,
       maxValue: maxValueForCharts
-    } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6 );
+    } = getValueAndCoefficientYForChart(arrayOfButton, minValueXOfRange, maxValueXOfRange, heightWithPaddingForCharts - heightWithPaddingForCharts / 6, indexOfChart );
     const coefficientXForCharts = getCoefficientXForCharts(width, minValueXOfRange, maxValueXOfRange, coefficientX, stepOfValueX);
-
+    
     const heightWithPaddingForBottomBar = heightWithPaddingForCharts + 150;
-
     return (
       <div className="App" style={{position: 'relative'}}>
         <Field
@@ -233,6 +252,8 @@ class App extends Component {
             maxValue={maxValue}
             width={width}
             heightWithPadding={heightWithPaddingForBottomBar}
+            indexOfChart={indexOfChart}
+            resetAll={resetAll}
           />
           <Charts
             coefficientY={coefficientForCharts}
@@ -245,6 +266,7 @@ class App extends Component {
             isCharts={true}
             height={height}
             changeStateOfTip={this.changeStateOfTip}
+            indexOfChart={indexOfChart}
           />
         </svg>
         <Tip
@@ -254,8 +276,48 @@ class App extends Component {
           indexOfValue={indexValueOnTip}
           height={height * workHeightCoefficient}
           positionOfTipY={positionOfTipY}
+          indexOfChart={indexOfChart}
         />
       </div>
+    );
+  }
+}
+
+class Main extends Component {
+  render() {
+    return (
+      <div>
+        <ul>
+          <li>
+            <Link to="/chart/0">#1</Link>
+          </li>
+          <li>
+            <Link to="/chart/1">#2</Link>
+          </li>
+          <li>
+            <Link to="/chart/2">#3</Link>
+          </li>
+          <li>
+            <Link to="/chart/3">#4</Link>
+          </li>
+          <li>
+            <Link to="/chart/4">#5</Link>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact={true} path='/' component={Main}/>
+          <Route exact={true} path="/chart/:index" component={MainApp} />
+        </Switch>
+      </Router>
     );
   }
 }

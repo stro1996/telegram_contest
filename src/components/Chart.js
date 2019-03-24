@@ -16,18 +16,19 @@ const Chart = (props) => {
     width,
     name,
     changeStateOfTip,
+    indexOfChart
   } = props;
   let resetIndex = 0;
-  for (let i = 0; i < getLengthOfArray(4); i++) {
+  for (let i = 0; i < getLengthOfArray(indexOfChart); i++) {
 
-    const targetValue = getValue(4, 0, i);
+    const targetValue = getValue(indexOfChart, 0, i);
     if (i !== 0 && (targetValue > maxValue ||  targetValue < minValue)) {
       resetIndex = i;
       continue;
     }
 
     const indexForRenderX = isCharts ? (i - 1) - resetIndex : i;
-    if (i === getLengthOfArray(4) - 1) {
+    if (i === getLengthOfArray(indexOfChart) - 1) {
       continue
     }
 
@@ -37,9 +38,9 @@ const Chart = (props) => {
           stroke={color}
           strokeWidth={2}
           x1={i === 0 ? 0 : coefficientX * indexForRenderX}
-          y1={i === 0 ? heightWithPadding : heightWithPadding - (getValue(4, index, i) / coefficientY)}
+          y1={i === 0 ? heightWithPadding : heightWithPadding - (getValue(indexOfChart, index, i) / coefficientY)}
           x2={coefficientX * indexForRenderX + coefficientX}
-          y2={heightWithPadding - ((getValue(4,index, i + 1) / coefficientY))}
+          y2={heightWithPadding - ((getValue(indexOfChart,index, i + 1) / coefficientY))}
         />
         {
           renderDot
@@ -50,7 +51,7 @@ const Chart = (props) => {
                 onMouseOut={() => hideTooltip(changeStateOfTip)}
                 fill={'transparent'}
                 cx={i === 0 ? 0 : coefficientX * indexForRenderX}
-                cy={i === 0 ? heightWithPadding : heightWithPadding - (getValue(4, index, i) / coefficientY)}
+                cy={i === 0 ? heightWithPadding : heightWithPadding - (getValue(indexOfChart, index, i) / coefficientY)}
                 r={10}
             />
             : null

@@ -10,9 +10,12 @@ class BottomCharts extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { arrayOfItems, width, height } = this.props;
-    const { arrayOfItems: newArrayOfItems, height: newHeight, width: newWidth } = nextProps;
+    const { arrayOfItems: newArrayOfItems, height: newHeight, width: newWidth, resetAll } = nextProps;
     const { update } = this.state;
     let needUpdate = false;
+    if (resetAll) {
+      return true;
+    }
     if (!update) {
       return true;
     }
@@ -35,7 +38,7 @@ class BottomCharts extends Component {
   }
 
   getArrayOfLine = () => {
-    const { arrayOfItems, coefficientY, coefficientX, heightWithPadding, minValue, maxValue } = this.props;
+    const { arrayOfItems, coefficientY, coefficientX, heightWithPadding, minValue, maxValue, indexOfChart } = this.props;
     let arrayOfLine = [];
     for (let dataIndex = 0; dataIndex < arrayOfItems.length; dataIndex++) {
       if (arrayOfItems[dataIndex] === null) {
@@ -46,13 +49,14 @@ class BottomCharts extends Component {
       arrayOfLine.push(<Chart
         key={dataIndex}
         index={dataIndex + 1}
-        color={getColor(4, `y${dataIndex}`)}
+        color={getColor(indexOfChart, `y${dataIndex}`)}
         coefficientY={coefficientY}
         coefficientX={coefficientX}
         minValue={minValue}
         maxValue={maxValue}
         heightWithPadding={heightWithPadding}
         name={'BottomCharts'}
+        indexOfChart={indexOfChart}
       />);
     }
 
