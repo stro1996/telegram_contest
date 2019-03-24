@@ -18,7 +18,6 @@ import {
 } from './utils/getCoefficient';
 import { getValueXOfRange } from './utils/getValueOfRange';
 import { rangeForBottomBar } from "./const/constForСalculations";
-import { Transition } from 'react-transition-group';
 
 const style = {
   display: "flex",
@@ -27,18 +26,6 @@ const style = {
   border: "solid 1px #ddd",
   background: "transparent",
   borderRadius: '5px 5px 5px 5px',
-};
-
-const duration = 100;
-
-const defaultStyle = {
-  transition: `width 500ms 0ms, opacity 100ms 100ms`,
-  opacity: 0,
-};
-
-const transitionStyles = {
-  entering: { opacity: 0 },
-  entered:  { opacity: 1 },
 };
 
 class App extends Component {
@@ -50,7 +37,6 @@ class App extends Component {
       width: 200,
       height: 200,
       coefficientY: 1,
-      changeAnimation: true,
       showTip: false,
       positionOfTipX: 0,
       positionOfTipY: 0,
@@ -127,8 +113,7 @@ class App extends Component {
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
-        changeAnimation: false,
-      }, () => this.setState({ changeAnimation: true }));
+      },);
     });
   };
 
@@ -165,8 +150,7 @@ class App extends Component {
     requestAnimationFrame(() => {
       this.setState({
         limiter: newLimiter,
-        changeAnimation: false,
-      }, () => this.setState({ changeAnimation: true }));
+      });
     });
   };
 
@@ -182,7 +166,7 @@ class App extends Component {
   };
 
   render() {
-    const { width, height, limiter, coefficientY, arrayOfButton, changeAnimation, showTip, positionOfTipX, indexValueOnTip, positionOfTipY } = this.state;
+    const { width, height, limiter, coefficientY, arrayOfButton, showTip, positionOfTipX, indexValueOnTip, positionOfTipY } = this.state;
 
     const heightWithPaddingForCharts = (height * workHeightCoefficient);
     const { coefficientX, stepOfValueX, minValue, maxValue } = getCoefficientX(arrayOfButton, width);
@@ -202,24 +186,15 @@ class App extends Component {
           width={width}
           heightGap={heightWithPaddingForCharts / 6}
         />
-        <Transition in={changeAnimation} timeout={duration}>
-          {state => (
-            <div style={{
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }}>
-              <BottomMeasure
-                maxValue={maxValueXOfRange}
-                delta={maxValueXOfRange - minValueXOfRange}
-                step={width / 5.5}
-                stepByDtae={(maxValueXOfRange - minValueXOfRange) / 6}
-                positionByY={heightWithPaddingForCharts}
-                width={width}
-                minValue={minValueXOfRange}
-              />
-            </div>
-          )}
-        </Transition>
+        <BottomMeasure
+          maxValue={maxValueXOfRange}
+          delta={maxValueXOfRange - minValueXOfRange}
+          step={width / 5.5}
+          stepByDtae={(maxValueXOfRange - minValueXOfRange) / 6}
+          positionByY={heightWithPaddingForCharts}
+          width={width}
+          minValue={minValueXOfRange}
+        />
         <div style={{position: 'absolute', top: height - 50}}>
           {
             arrayOfButton.map((item, index) =>

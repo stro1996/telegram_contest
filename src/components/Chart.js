@@ -14,6 +14,7 @@ const Chart = (props) => {
     isCharts,
     renderDot,
     width,
+    name,
     changeStateOfTip,
   } = props;
   let resetIndex = 0;
@@ -31,7 +32,7 @@ const Chart = (props) => {
     }
 
     const line = (
-      <React.Fragment>
+      <React.Fragment key={`${name}_${index}_${i}`}>
         <line
           stroke={color}
           strokeWidth={2}

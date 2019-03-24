@@ -52,6 +52,7 @@ class BottomCharts extends Component {
         minValue={minValue}
         maxValue={maxValue}
         heightWithPadding={heightWithPadding}
+        name={'BottomCharts'}
       />);
     }
 

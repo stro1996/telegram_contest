@@ -47,9 +47,9 @@ const getArrayOfItems = (arrayOfValue, indexOfValue) => {
       return
     }
     const color = getColor(4, `y${index}`);
-    const newItem = (<div style={{margin: '0 10px'}}>
-      <p style={{ color, textAlign: 'center' }}>{getValue(4, index + 1, indexOfValue)}</p>
-      <p style={{ color, textAlign: 'center' }}>{getName(4, `y${index}`)}</p>
+    const newItem = (<div key={index} style={{margin: '0 10px'}}>
+      <p style={{ color, textAlign: 'center', fontWeight: 'bold' }}>{getValue(4, index + 1, indexOfValue)}</p>
+      <p style={{ color, textAlign: 'center', fontWeight: 'bold' }}>{getName(4, `y${index}`)}</p>
     </div>);
 
     arrayOfItems.push(newItem)

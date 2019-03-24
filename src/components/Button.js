@@ -17,7 +17,7 @@ class Button extends Component {
       <button style={{ width: width / 5, marginLeft: width / 25, height: height * 0.05, borderRadius: width / 5, outline: 'none' }} onClick={this.onPressOnButton}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
           <svg height={height * 0.05} width={width / 10}>
-            <circle cx={width / 20} cy={height * 0.025} r={height * 0.015} stroke="black" stroke-width="1" fill={isCheck ? color: 'transparent' }/>
+            <circle cx={width / 20} cy={height * 0.025} r={height * 0.015} stroke="black" strokeWidth="1" fill={isCheck ? color: 'transparent' }/>
           </svg>
           <p style={{ color, fontWeight: 'bold' }}>{name}</p>
         </div>

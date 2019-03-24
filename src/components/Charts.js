@@ -31,7 +31,7 @@ class Charts extends Component {
       }
 
       arrayOfLine.push(<Chart
-        key={dataIndex}
+        key={`Charts_${dataIndex}`}
         height={height}
         index={dataIndex + 1}
         color={getColor(4, `y${dataIndex}`)}
@@ -44,6 +44,7 @@ class Charts extends Component {
         renderDot={true}
         width={width}
         changeStateOfTip={changeStateOfTip}
+        name={'Charts'}
       />);
     }
 

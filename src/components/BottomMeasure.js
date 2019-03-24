@@ -23,9 +23,9 @@ class BottomMeasure extends Component {
                   position: 'absolute',
                   top: positionByY,
                   left: positionByX,
-                }
+                };
             return (
-              <div style={style}>
+              <div style={style} key={index}>
                 <p style={{fontSize: '10px'}}>{`${month[item.getMonth()]} ${item.getDate()} ${item.getFullYear()}`}</p>
               </div>
             )
