@@ -28,6 +28,7 @@ const Tip = (props) => {
         </div>
       </div>
         <Line
+          borderWidth={2}
           zIndex={1}
           borderColor={'gray'}
           x0={positionX}
