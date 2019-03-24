@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/telegram_contest/precache-manifest.cfd2c376cdbf00486d5dd900dcb164ad.js"
+  "https://stro1996.github.io/telegram_contest/precache-manifest.c80134d80183c456f8c9be473b17ba18.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/telegram_contest/index.html", {
+workbox.routing.registerNavigationRoute("https://stro1996.github.io/telegram_contest/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
