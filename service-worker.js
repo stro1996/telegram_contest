@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "https://stro1996.github.io/telegram_contest/precache-manifest.623d953c7b35ff9f82d4f015d6396635.js"
+  "https://stro1996.github.io/telegram_contest/precache-manifest.7dfd5bd47acb93c94ff9a581369d0d5e.js"
 );
 
 workbox.clientsClaim();
