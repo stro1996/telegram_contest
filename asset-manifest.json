@@ -1,13 +1,13 @@
 {
   "main.css": "/telegram_contest/static/css/main.35c4311d.chunk.css",
-  "main.js": "/telegram_contest/static/js/main.e38385da.chunk.js",
-  "main.js.map": "/telegram_contest/static/js/main.e38385da.chunk.js.map",
+  "main.js": "/telegram_contest/static/js/main.007a6316.chunk.js",
+  "main.js.map": "/telegram_contest/static/js/main.007a6316.chunk.js.map",
   "runtime~main.js": "/telegram_contest/static/js/runtime~main.bb3b77f1.js",
   "runtime~main.js.map": "/telegram_contest/static/js/runtime~main.bb3b77f1.js.map",
   "static/js/2.f32aedd8.chunk.js": "/telegram_contest/static/js/2.f32aedd8.chunk.js",
   "static/js/2.f32aedd8.chunk.js.map": "/telegram_contest/static/js/2.f32aedd8.chunk.js.map",
   "index.html": "/telegram_contest/index.html",
-  "precache-manifest.969dfea2d382d5d9f1381cb5932cd3cb.js": "/telegram_contest/precache-manifest.969dfea2d382d5d9f1381cb5932cd3cb.js",
+  "precache-manifest.02eb7ae865b2b9b4b531bb982170ed0d.js": "/telegram_contest/precache-manifest.02eb7ae865b2b9b4b531bb982170ed0d.js",
   "service-worker.js": "/telegram_contest/service-worker.js",
   "static/css/main.35c4311d.chunk.css.map": "/telegram_contest/static/css/main.35c4311d.chunk.css.map"
 }
